@@ -1,0 +1,54 @@
+{
+    "id": "rti.connext",
+    "type": "package",
+    "value": {
+        "language": null,
+        "dependee": {
+            "${language cpp}": {
+                "${os linux}": {
+                    "cxxflags": ["RTI_UNIX"]
+                },
+                "${os darwin}": {
+                    "cxxflags": ["-DRTI_UNIX", "-DRTI_DARWIN"]
+                },
+                "${os x64}": {
+                    "cxxflags": ["-DRTI_64BIT"]
+                },
+                "include": [
+                    "$NDDSHOME/include/ndds/hpp"
+                ],
+                "lib": [
+                    "nddscpp2"
+                ]
+            },
+            "${language c}": {
+                "${os linux}": {
+                    "cflags": ["RTI_UNIX"]
+                },
+                "${os darwin}": {
+                    "cflags": ["-DRTI_UNIX", "-DRTI_DARWIN"]
+                },
+                "${os x64}": {
+                    "cflags": ["-DRTI_64BIT"]
+                },
+                "include": [
+                    "$NDDSHOME/include/ndds/dds_c"
+                ],
+                "lib": [
+                    "nddsc"
+                ]
+            },
+            "include": [
+              "$NDDSHOME/include",
+              "$NDDSHOME/include/ndds"
+            ],
+            "libpath": [
+                "$NDDSHOME/lib/$NDDSPLATFORM"
+            ],
+            "lib": [
+                "nddsc",
+                "nddscore"
+            ]
+        }
+    }
+}
