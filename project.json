@@ -2,45 +2,23 @@
     "id": "rti.connext",
     "type": "package",
     "value": {
-        "language": null,
-        "dependee": {
-            "${language cpp}": {
-                "${os linux}": {
-                    "cxxflags": ["RTI_UNIX"]
-                },
-                "${os darwin}": {
-                    "cxxflags": ["-DRTI_UNIX", "-DRTI_DARWIN"]
-                },
-                "${os x64}": {
-                    "cxxflags": ["-DRTI_64BIT"]
-                },
-                "include": [
-                    "$NDDSHOME/include/ndds/hpp"
-                ],
-                "lib": [
-                    "nddscpp2"
-                ]
+        "language": "none"
+    },
+    "dependee": {
+        "lang.c": {
+            "${os linux}": {
+                "cflags": ["-DRTI_UNIX"]
             },
-            "${language c}": {
-                "${os linux}": {
-                    "cflags": ["RTI_UNIX"]
-                },
-                "${os darwin}": {
-                    "cflags": ["-DRTI_UNIX", "-DRTI_DARWIN"]
-                },
-                "${os x64}": {
-                    "cflags": ["-DRTI_64BIT"]
-                },
-                "include": [
-                    "$NDDSHOME/include/ndds/dds_c"
-                ],
-                "lib": [
-                    "nddsc"
-                ]
+            "${os darwin}": {
+                "cflags": ["-DRTI_UNIX", "-DRTI_DARWIN"]
+            },
+            "${os x64}": {
+                "cflags": ["-DRTI_64BIT"]
             },
             "include": [
-              "$NDDSHOME/include",
-              "$NDDSHOME/include/ndds"
+                "$NDDSHOME/include/ndds/dds_c",
+                "$NDDSHOME/include",
+                "$NDDSHOME/include/ndds"
             ],
             "libpath": [
                 "$NDDSHOME/lib/$NDDSPLATFORM"
