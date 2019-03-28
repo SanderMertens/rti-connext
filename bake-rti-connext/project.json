@@ -1,0 +1,9 @@
+{
+    "id": "bake.rti.connext",
+    "type": "package",
+    "value": {
+        "author": "John Doe",
+        "description": "A fitness tracker for sales reps",
+        "use": ["bake.util"]
+    }
+}
