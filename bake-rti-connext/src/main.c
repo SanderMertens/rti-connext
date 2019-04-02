@@ -11,7 +11,7 @@
 #define RTI_IDL_SUPPORT_HEADER "Support.h"
 
 #define DRIVER_IDL_ATTR "idl"
-#define DRIVER_PUBLIC_HEADERS_ATTR "public-headers"
+#define DRIVER_HEADER_PATH_ATTR "header-path"
 
 static
 void init(
@@ -73,12 +73,13 @@ void generate(
 static
 void move_to_include(
     bake_project *project,
+    const char *header_path,
     const char *file_pattern,
     const char *file_base)
 {
     char *src_file = ut_asprintf("%s/src/%s%s", project->path, file_base, file_pattern);
     if (ut_file_test(src_file) == 1) {
-        char *dst_file = ut_asprintf("%s/include/%s%s", project->path, file_base, file_pattern);
+        char *dst_file = ut_asprintf("%s/%s/%s%s", project->path, header_path, file_base, file_pattern);
         ut_rename(src_file, dst_file);
         free(dst_file);
     }
@@ -92,7 +93,8 @@ void prebuild(
     bake_config *config,
     bake_project *project)
 {
-    if (driver->get_attr_bool(DRIVER_PUBLIC_HEADERS_ATTR)) {
+    const char *header_path = driver->get_attr_string(DRIVER_HEADER_PATH_ATTR);
+    if (header_path && strlen(header_path)) {
         char *idl_file = driver->get_attr_string(DRIVER_IDL_ATTR);
         if (idl_file && strlen(idl_file)) {
             char *idl_base = ut_strdup(idl_file);
@@ -101,9 +103,14 @@ void prebuild(
                 ext[0] = '\0';
             }
 
-            move_to_include(project, RTI_IDL_HEADER, idl_base);
-            move_to_include(project, RTI_IDL_PLUGIN_HEADER, idl_base);
-            move_to_include(project, RTI_IDL_SUPPORT_HEADER, idl_base);
+            if (ut_mkdir(header_path)) {
+                ut_error("failed to create header path");
+                project->error = 1;
+            }
+
+            move_to_include(project, header_path, RTI_IDL_HEADER, idl_base);
+            move_to_include(project, header_path, RTI_IDL_PLUGIN_HEADER, idl_base);
+            move_to_include(project, header_path, RTI_IDL_SUPPORT_HEADER, idl_base);
             
             free(idl_base);
 
@@ -112,7 +119,7 @@ void prebuild(
             bake_driver *c_driver = driver->lookup_driver("lang.c");
             if (c_driver) {
                 bake_driver *current = driver->set_driver(c_driver);
-                driver->set_attr_array("include", "include");
+                driver->set_attr_array("include", header_path);
                 driver->set_driver(current);
             }
         }
