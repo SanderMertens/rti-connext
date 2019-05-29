@@ -1,5 +1,5 @@
-#include <bake>
-#include <include/connext.h>
+#include <bake.h>
+#include <bake_rti_connext.h>
 
 #define RTI_CONNEXT_PACKAGE "rti.connext"
 #define RTI_DDSGEN_PATH "bin/rtiddsgen"
